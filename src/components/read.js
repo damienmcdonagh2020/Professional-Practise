@@ -1,5 +1,5 @@
 import React from "react";
-import { Books } from "./books";
+import { Jobs } from "./Jobs";
 import axios from "axios";
 
 export class Read extends React.Component {
@@ -9,9 +9,9 @@ export class Read extends React.Component {
     }
    
     componentDidMount() {
-        axios.get('http://localhost:4000/api/books')
+        axios.get('http://localhost:4000/api/jobs')
             .then((response) => {
-                this.setState({ books: response.data })
+                this.setState({ jobs: response.data })
             })
             .catch((error) => {
                 console.log(error);
@@ -19,14 +19,14 @@ export class Read extends React.Component {
     }
 
     state = {
-        books: []
+        jobs: []
     }
 
     render() {
         return (
             <div>
                 <h3>Hello from my Read component!</h3>
-                <Books books={this.state.books} Reload={this.componentDidMount}></Books>
+                <Jobs jobs={this.state.jobs} Reload={this.componentDidMount}></Jobs>
             </div>
         );
     }

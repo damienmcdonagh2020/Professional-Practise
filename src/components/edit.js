@@ -4,16 +4,16 @@ import { useParams } from "react-router-dom";
 
 export function Edit(){
     let {id} = useParams();
-    const [title, setTitle] = useState('');
-    const [cover, setCover] = useState('');
-    const [author, setAuthor] = useState('');
+    const [name, setName] = useState('');
+    const [profession, setProfession] = useState('');
+    const [location, setLocation] = useState('');
 
     useEffect(()=>{
-        axios.get('http://localhost:4000/api/book/'+id)
+        axios.get('http://localhost:4000/api/job/'+id)
         .then((response)=>{
-            setTitle(response.data.title);
-            setCover(response.data.cover);
-            setAuthor(response.data.author);
+            setName(response.data.name);
+            setProfession(response.data.profession); // change this line
+            setLocation(response.data.location);
         })
         .catch()
     },[]);
@@ -21,46 +21,46 @@ export function Edit(){
     const handleSubmit = (e)=>{
         e.preventDefault();
 
-        const editBook = {
-            title:title,
-            cover:cover,
-            author:author
+        const editJob = {
+            name:name,
+            profession:profession,
+            location:location
         }
 
-        axios.put('http://localhost:4000/api/book/'+id,editBook)
+        axios.put('http://localhost:4000/api/job/'+id,editJob)
         .then()
         .catch();
     }
-
+ 
     return(
         <div>
             <h3>Edit component</h3>
             <form onSubmit={handleSubmit}>
-            <div className="form-group">
-                        <label>Edit Book Title: </label>
-                        <input type="text"
-                            className="form-control"
-                            value={title}
-                            onChange={(e)=>{setTitle(e.target.value)}}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Edit Book Cover: </label>
-                        <input type="text"
-                            className="form-control"
-                            value={cover}
-                            onChange={(e)=>{setCover(e.target.value)}}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Edit Book Author: </label>
-                        <input type="text"
-                            className="form-control"
-                            value={author}
-                            onChange={(e)=>{setAuthor(e.target.value)}}
-                        />
-                    </div>
-                <input type="submit" value="Edit Book"></input>
+                <div className="form-group">
+                    <label>Edit Job Title: </label>
+                    <input type="text"
+                        className="form-control"
+                        value={name}
+                        onChange={(e)=>{setName(e.target.value)}}
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Edit profession: </label>
+                    <input type="text"
+                        className="form-control"
+                        value={profession}
+                        onChange={(e)=>{setProfession(e.target.value)}}
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Edit Job Location: </label>
+                    <input type="text"
+                        className="form-control"
+                        value={location}
+                        onChange={(e)=>{setLocation(e.target.value)}}
+                    />
+                </div>
+                <input type="submit" value="Edit Job"></input>
             </form>
         </div>
     );

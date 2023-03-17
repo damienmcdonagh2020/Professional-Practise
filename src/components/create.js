@@ -2,96 +2,128 @@ import React from "react";
 import axios from "axios";
 
 export class Create extends React.Component {
+  constructor() {
+    super();
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.onChangeJobName = this.onChangeJobName.bind(this);
+    this.onChangeJobProfession = this.onChangeJobProfession.bind(this);
+    this.onChangeJobExperience = this.onChangeJobExperience.bind(this);
+    this.onChangeJobPricing = this.onChangeJobPricing.bind(this);
 
-    constructor(){
-        super();
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.onChangeBookTitle = this.onChangeBookTitle.bind(this);
-        this.onChangeBookCover = this.onChangeBookCover.bind(this);
-        this.onChangeBookAuthor = this.onChangeBookAuthor.bind(this);
-        
-        this.state = {
-            title:'',
-            cover:'',
-            author:''
-        }
-    }
+    this.state = {
+      name: "",
+      profession: "",
+      experience: "",
+      price: "",
+    };
+  }              
 
-    handleSubmit(e){
-        e.preventDefault();
-        console.log(`Button clicked 
-        ${this.state.title},
-        ${this.state.cover},
-        ${this.state.author}`);
+  handleSubmit(e) {
+    e.preventDefault();
+    console.log(
+      `Button clicked 
+      ${this.state.name},
+      ${this.state.profession},
+      ${this.state.experience},
+      ${this.state.price}`
+    );
 
-        const book ={
-            title:this.state.title,
-            cover:this.state.cover,
-            author:this.state.author
-        }
+    const job = {
+      name: this.state.name,
+      profession: this.state.profession,
+      experience: this.state.experience,
+      price: this.state.price,
+    };
 
-        axios.post('http://localhost:4000/api/books',book)
-        .then()
-        .catch();
+    axios
+  .post("http://localhost:4000/api/jobs", job)
+  .then(response => {
+    console.log(response.data);
+    // do something with the response data
+  })
+  .catch(error => {
+    console.log(error);
+    // handle the error
+  });
 
-        this.setState({
-            title:'',
-            cover:'',
-            author:''
-        })
-    }
+    this.setState({
+      name: "",
+      profession: "",
+      experience: "",
+      price: "",
+    });
+  }
 
-    onChangeBookTitle(e){
-        this.setState({
-            title:e.target.value
-        })
-    }
-    onChangeBookCover(e){
-        this.setState({
-            cover:e.target.value
-        })
-    }
-    onChangeBookAuthor(e){
-        this.setState({
-            author:e.target.value
-        })
-    }
+  onChangeJobName(e) {
+    this.setState({
+      name: e.target.value,
+    });
+  }
+  onChangeJobProfession(e) {
+    this.setState({
+      profession: e.target.value,
+    });
+  }
+  onChangeJobExperience(e) {
+    this.setState({
+      experience: e.target.value,
+    });
+  }
 
-    render() {
-        return (
-            <div>
-                <h3>Hello from Create Component!</h3>
-                <form onSubmit={this.handleSubmit}>
-                    <div className="form-group">
-                        <label>Add Book Title: </label>
-                        <input type="text"
-                            className="form-control"
-                            value={this.state.title}
-                            onChange={this.onChangeBookTitle}
-                        />
-                    </div>
+  onChangeJobPricing(e) {
+    this.setState({
+      price: e.target.value,
+    });
+  }
 
-                    <div className="form-group">
-                        <label>Add Book Cover: </label>
-                        <input type="text"
-                            className="form-control"
-                            value={this.state.cover}
-                            onChange={this.onChangeBookCover}
-                        />
-                    </div>
+  render() {
+    return (
+      <div>
+        <h3>Hello from Create Component!</h3>
+        <form onSubmit={this.handleSubmit}>
+          <div className="form-group">
+            <label>Name: </label>
+            <input
+              type="text"
+              className="form-control"
+              value={this.state.name}
+              onChange={this.onChangeJobName}
+            />
+          </div>
 
-                    <div className="form-group">
-                        <label>Add Author: </label>
-                        <input type="text"
-                            className="form-control"
-                            value={this.state.author}
-                            onChange={this.onChangeBookAuthor}
-                        />
-                    </div>
+          <div className="form-group">
+            <label>Profession </label>
+            <input
+              type="text"
+              className="form-control"
+              value={this.state.profession}
+              onChange={this.onChangeJobProfession}
+            />
+          </div>
 
-                    <input type="submit" value="Add Book" />
-                </form>
-            </div>
-        );
-    }
+          <div className="form-group">
+            <label>Experience: </label>
+            <input
+              type="text"
+              className="form-control"
+              value={this.state.experience}
+              onChange={this.onChangeJobExperience}
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Price: </label>
+            <input
+              type="text"
+              className="form-control"
+              value={this.state.price}
+              onChange={this.onChangeJobPricing}
+            />
+          </div>
+
+          <input type="submit" value="Add Job" />
+        </form>
+      </div>
+    );
+  }
 }

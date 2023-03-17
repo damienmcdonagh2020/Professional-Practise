@@ -4,15 +4,15 @@ import Button  from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-export class BookItem extends React.Component {
+export class JobItem extends React.Component {
     constructor(){
         super();
-        this.DeleteBook = this.DeleteBook.bind(this);
+        this.DeleteJob = this.DeleteJob.bind(this);
     }
-    DeleteBook(e){
+    DeleteJob(e){
         e.preventDefault();
 
-        axios.delete('http://localhost:4000/api/book/'+this.props.book._id)
+        axios.delete('http://localhost:4000/api/job/'+this.props.job._id)
         .then((res)=>{this.props.Reload();})
         .catch();
     }
@@ -21,17 +21,17 @@ export class BookItem extends React.Component {
             <div>
 
                 <Card>
-                    <Card.Header>{this.props.book.title}</Card.Header>
+                    <Card.Header>{this.props.job.title}</Card.Header>
                     <Card.Body>
                         <blockquote className="blockquote mb-0">
-                            <img src={this.props.book.cover}></img>
+                            <img src={this.props.job.cover}></img>
                             <footer >
-                                {this.props.book.author}
+                                {this.props.job.author}
                             </footer>
                         </blockquote>
                     </Card.Body>
-                    <Link to={'/edit/' + this.props.book._id} className="btn btn-primary">Edit</Link>
-                    <Button variant="danger" onClick={this.DeleteBook}>Delete</Button>
+                    <Link to={'/edit/' + this.props.job._id} className="btn btn-primary">Edit</Link>
+                    <Button variant="danger" onClick={this.DeleteJob}>Delete</Button>
                 </Card>
             </div>
         );
