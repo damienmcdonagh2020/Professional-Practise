@@ -15,23 +15,56 @@ app.use(express.static(path.join(__dirname, '../build')));
 app.use('/static', express.static(path.join(__dirname, 'build//static')));
 
 const cors = require('cors');
-app.use(cors());
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-
+app.use(cors({ origin: '*' }));
+// mongodb+srv://<username>:<password>@cluster0.v3ubqnx.mongodb.net/test
+////mongodb+srv://admin:admin@cluster0.bya2oxm.mongodb.net/test
 //mongodb+srv://admin:<password>@cluster0.8taek.mongodb.net/?retryWrites=true&w=majority
-// getting-started.js
+//mongodb+srv://admin:admin@cluster0.bya2oxm.mongodb.net/test
+//Old Code
+ //getting-started.js
+//  const mongoose = require('mongoose');
+//  main().catch(err => console.log(err));
+//  async function main() {
+//   //await 
+//   mongoose.connect('mongodb+srv://admin:admin@cluster0.8taek.mongodb.net/test');
+//   await mongoose.connect('mongodb+srv://admin:admin@cluster0.8taek.mongodb.net/?retryWrites=true&w=majority');
+//    //use `await mongoose.connect('mongodb://user:password@localhost:27017/test');//` if your database has auth enabled
+// const mongoose = require('mongoose');
+// main().catch(err => console.log(err));
+// async function main() {
+//   await mongoose.connect('mongodb+srv://admin:admin@cluster0.8taek.mongodb.net/?retryWrites=true&w=majority');
+//   // use `await mongoose.connect('mongodb://user:password@localhost:27017/test');` if your database has auth enabled
+// }
+
+
 const mongoose = require('mongoose');
+
 main().catch(err => console.log(err));
+//Reading in the mongodb with Damo as username(my name) and admin as password
 async function main() {
-  await mongoose.connect('mongodb+srv://admin:admin@cluster0.8taek.mongodb.net/?retryWrites=true&w=majority');
+  await mongoose.connect('mongodb+srv://Damo:admin@damodatabase.cefelej.mongodb.net/?retryWrites=true&w=majority');
+  
   // use `await mongoose.connect('mongodb://user:password@localhost:27017/test');` if your database has auth enabled
 }
+
+//New MongoDB
+// const mongoose = require('mongoose');
+
+// async function connect() {
+//   try {
+//     await mongoose.connect('mongodb+srv://admin:admin@cluster0.8taek.mongodb.net/test', {
+//       useUnifiedTopology: true,
+//       useCreateIndex: true,
+//       useFindAndModify: false
+//     });
+//     console.log('MongoDB Connected...');
+//   } catch (error) {
+//     console.error(error.message);
+//     process.exit(1);
+//   }
+// }
+
+//connect();
 
 const jobSchema = new mongoose.Schema({
   name: String,
