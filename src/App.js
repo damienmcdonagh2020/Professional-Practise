@@ -9,12 +9,16 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import {Read} from './components/Read';
 import { Create } from './components/create';
+
+import Users from './components/Users'; // Corrected import
+
 import {
   BrowserRouter as Router,
   Routes,
   Route
 } from 'react-router-dom';
 import { Edit } from './components/edit';
+import Search from './components/search';
 
 class App extends React.Component {
   render() {
@@ -24,10 +28,11 @@ class App extends React.Component {
         <Navbar bg="dark" variant="dark">
           <Container>
             <Navbar.Brand href="/">Navbar</Navbar.Brand>
-            <Nav className="me-auto">
+            <Nav className="me-auto"><img src="./Images/HandyBros.png" alt="HandyBros.png" />
               <Nav.Link href="/">Home</Nav.Link>
               <Nav.Link href="/read">TradesMen list</Nav.Link>
               <Nav.Link href="/create">Create Tradesman</Nav.Link>
+              <Nav.Link href="/Users">Login OR Create</Nav.Link>
             </Nav>
           </Container>
         </Navbar>
@@ -36,6 +41,7 @@ class App extends React.Component {
         <Route path='/Read' element={<Read></Read>}></Route>
         <Route path='/create' element={<Create></Create>}></Route>
         <Route path='/edit/:id' element={<Edit></Edit>}></Route>
+        <Route path='/Users' element={<Users></Users>}></Route>
       </Routes>
         {/* <Header></Header>
         <Content></Content>

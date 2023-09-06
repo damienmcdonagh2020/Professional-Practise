@@ -7,50 +7,48 @@ export class Create extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChangeJobName = this.onChangeJobName.bind(this);
     this.onChangeJobProfession = this.onChangeJobProfession.bind(this);
-    this.onChangeJobExperience = this.onChangeJobExperience.bind(this);
+    this.onChangeJobLocation = this.onChangeJobLocation.bind(this);
     this.onChangeJobPricing = this.onChangeJobPricing.bind(this);
+    this.onChangeJobNumber = this.onChangeJobNumber.bind(this);
 
     this.state = {
       name: "",
       profession: "",
-      experience: "",
+      location: "",
       price: "",
+      number: "",
     };
-  }              
+  }
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(
-      `Button clicked 
-      ${this.state.name},
-      ${this.state.profession},
-      ${this.state.experience},
-      ${this.state.price}`
-    );
-
+  
     const job = {
       name: this.state.name,
       profession: this.state.profession,
-      experience: this.state.experience,
+      location: this.state.location,
       price: this.state.price,
-    };
+      number: this.state.number, 
+  }
+  
 
     axios
-  .post("http://localhost:4000/api/jobs", job)
-  .then(response => {
-    console.log(response.data);
-    // do something with the response data
-  })
-  .catch(error => {
-    console.log(error);
-    // handle the error
-  });
+      .post("http://localhost:4000/api/jobs", job)
+      .then((response) => {
+        console.log(response.data);
+        
+      })
+      .catch((error) => {
+        console.log(error);
+       
+      });
 
     this.setState({
       name: "",
       profession: "",
-      experience: "",
+      location: "",
       price: "",
+      number: "",
     });
   }
 
@@ -64,9 +62,9 @@ export class Create extends React.Component {
       profession: e.target.value,
     });
   }
-  onChangeJobExperience(e) {
+  onChangeJobLocation(e) {
     this.setState({
-      experience: e.target.value,
+      location: e.target.value,
     });
   }
 
@@ -76,53 +74,78 @@ export class Create extends React.Component {
     });
   }
 
+  onChangeJobNumber(e){
+    this.setState({
+      number: e.target.value,
+    })
+  }
+
   render() {
     return (
-      <div>
-        <h3>Hello from Create Component!</h3>
-        <form onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <label>Name: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.name}
-              onChange={this.onChangeJobName}
-            />
-          </div>
+      <div className="d-flex flex-column justify-content-center align-items-center vh-100">
+        <div>
+          <h3 className="mb-4">Create a Job Listing</h3>
+          <form onSubmit={this.handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="jobName" className="mb-2">Name:</label>
+              <input
+                type="text"
+                id="jobName"
+                className="form-control form-control-lg"
+                value={this.state.name}
+                onChange={this.onChangeJobName}
+              />
+            </div>
 
-          <div className="form-group">
-            <label>Profession </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.profession}
-              onChange={this.onChangeJobProfession}
-            />
-          </div>
+            <div className="form-group">
+              <label htmlFor="jobProfession" className="mb-2">Profession:</label>
+              <input
+                type="text"
+                id="jobProfession"
+                className="form-control form-control-lg"
+                value={this.state.profession}
+                onChange={this.onChangeJobProfession}
+              />
+            </div>
 
-          <div className="form-group">
-            <label>Experience: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.experience}
-              onChange={this.onChangeJobExperience}
-            />
-          </div>
+            <div className="form-group">
+              <label htmlFor="jobLocation" className="mb-2">Location:</label>
+              <input
+                type="text"
+                id="jobLocation"
+                className="form-control form-control-lg"
+                value={this.state.location}
+                onChange={this.onChangeJobLocation}
+              />
+            </div>
 
-          <div className="form-group">
-            <label>Price: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.price}
-              onChange={this.onChangeJobPricing}
-            />
-          </div>
+            <div className="form-group">
+              <label htmlFor="jobPrice" className="mb-2">Price:</label>
+              <input
+                type="text"
+                id="jobPrice"
+                className="form-control form-control-lg"
+                value={this.state.price}
+                onChange={this.onChangeJobPricing}
+              />
+            </div>
 
-          <input type="submit" value="Add Job" />
-        </form>
+            <div className="form-group">
+              <label htmlFor="jobNumber" className="mb-2">Contact Number:</label>
+              <input
+                type="text"
+                id="jobNumber"
+                className="form-control form-control-lg"
+                value={this.state.number}
+                onChange={this.onChangeJobNumber}
+              />
+            </div>
+
+            <button type="submit" className="btn btn-primary">
+              Add Job
+            </button>
+          </form>
+        </div>
       </div>
     );
   }

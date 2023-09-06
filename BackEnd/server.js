@@ -16,26 +16,6 @@ app.use('/static', express.static(path.join(__dirname, 'build//static')));
 
 const cors = require('cors');
 app.use(cors({ origin: '*' }));
-// mongodb+srv://<username>:<password>@cluster0.v3ubqnx.mongodb.net/test
-////mongodb+srv://admin:admin@cluster0.bya2oxm.mongodb.net/test
-//mongodb+srv://admin:<password>@cluster0.8taek.mongodb.net/?retryWrites=true&w=majority
-//mongodb+srv://admin:admin@cluster0.bya2oxm.mongodb.net/test
-//Old Code
- //getting-started.js
-//  const mongoose = require('mongoose');
-//  main().catch(err => console.log(err));
-//  async function main() {
-//   //await 
-//   mongoose.connect('mongodb+srv://admin:admin@cluster0.8taek.mongodb.net/test');
-//   await mongoose.connect('mongodb+srv://admin:admin@cluster0.8taek.mongodb.net/?retryWrites=true&w=majority');
-//    //use `await mongoose.connect('mongodb://user:password@localhost:27017/test');//` if your database has auth enabled
-// const mongoose = require('mongoose');
-// main().catch(err => console.log(err));
-// async function main() {
-//   await mongoose.connect('mongodb+srv://admin:admin@cluster0.8taek.mongodb.net/?retryWrites=true&w=majority');
-//   // use `await mongoose.connect('mongodb://user:password@localhost:27017/test');` if your database has auth enabled
-// }
-
 
 const mongoose = require('mongoose');
 
@@ -43,37 +23,27 @@ main().catch(err => console.log(err));
 //Reading in the mongodb with Damo as username(my name) and admin as password
 async function main() {
   await mongoose.connect('mongodb+srv://Damo:admin@damodatabase.cefelej.mongodb.net/?retryWrites=true&w=majority');
-  
-  // use `await mongoose.connect('mongodb://user:password@localhost:27017/test');` if your database has auth enabled
 }
-
-//New MongoDB
-// const mongoose = require('mongoose');
-
-// async function connect() {
-//   try {
-//     await mongoose.connect('mongodb+srv://admin:admin@cluster0.8taek.mongodb.net/test', {
-//       useUnifiedTopology: true,
-//       useCreateIndex: true,
-//       useFindAndModify: false
-//     });
-//     console.log('MongoDB Connected...');
-//   } catch (error) {
-//     console.error(error.message);
-//     process.exit(1);
-//   }
-// }
-
-//connect();
 
 const jobSchema = new mongoose.Schema({
   name: String,
   profession: String,
-  experience: String,
-  price: Number
+  location: String, 
+  price: String,      
+  number: String,
 });
 
+
 const jobModel = mongoose.model('fdgdfgdfgdfg', jobSchema);
+
+//User Login
+const userSchema = new mongoose.Schema({
+  username: String,
+  password: String,
+  email: String,
+});
+
+const userModel = mongoose.model('User', userSchema);
 
 app.post('/api/jobs',(req,res)=>{
   console.log(req.body);
@@ -82,17 +52,31 @@ app.post('/api/jobs',(req,res)=>{
     name: req.body.name,
       profession: req.body.profession,
       experience: req.body.experience,
-      price: req.body.price
+      location: req.body.location,
+      price: req.body.price,
+      number: req.body.number
   })
   
   res.send('Data Recieved');
 })
 
+// Modify  /api/jobs route to handle profession search
 app.get('/api/jobs', (req, res) => {
-  jobModel.find((error, data)=>{
-    res.json(data);
-  })
-})
+   // Get the profession from query parameter
+  const { profession } = req.query;
+
+  // If a profession is provided, filter jobs by profession, else return all jobs
+  const filter = profession ? { profession } : {};
+
+  jobModel.find(filter, (error, data) => {
+    if (error) {
+      res.status(500).json({ error: "Internal server error" });
+    } else {
+      res.json(data);
+    }
+  });
+});
+
 
 app.get('/api/job/:id', (req, res)=>{
   console.log(req.params.id);
@@ -116,6 +100,39 @@ app.delete('/api/job/:id',(req, res)=>{
     res.send(data);
   })
 })
+
+//Users
+app.post('/api/register', (req, res) => {
+  const { username, password, email } = req.body;
+
+  userModel.create({
+    username,
+    password, 
+    email,
+  }, (error, user) => {
+    if (error) {
+      res.status(500).json({ error: 'Registration failed' });
+    } else {
+      res.status(201).json({ message: 'Registration successful' });
+    }
+  });
+});
+
+// //Log in
+ app.post('/api/login', (req, res) => {
+   const { username, password } = req.body;
+
+   userModel.findOne({ username, password }, (error, user) => {
+     if (error) {
+       res.status(500).json({ error: 'Login failed' });
+     } else if (!user) {
+       res.status(401).json({ error: 'Invalid credentials' });
+     } else {
+       res.status(200).json({ message: 'Login successful' });
+     }
+   });
+ });
+
 //File is been send to this location
 app.get('*', (req,res) =>{
   res.sendFile(path.join(__dirname+'/../build/index.html'));

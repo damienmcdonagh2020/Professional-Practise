@@ -6,7 +6,9 @@ export function Edit() {
   let { id } = useParams();
   const [name, setName] = useState("");
   const [profession, setProfession] = useState("");
+  const [location, setLocation] = useState("");
   const [price, setPrice] = useState("");
+  const [number, setNumber] = useState("");
 
   useEffect(() => {
     axios
@@ -14,7 +16,9 @@ export function Edit() {
       .then((response) => {
         setName(response.data.name);
         setProfession(response.data.profession);
-        setPrice(response.data.price); // set the price state from the response data
+        setLocation(response.data.location);
+        setPrice(response.data.price);
+        setNumber(response.data.number);
       })
       .catch();
   }, []);
@@ -25,7 +29,9 @@ export function Edit() {
     const editJob = {
       name: name,
       profession: profession,
-      price: price, // include the price in the edit job object
+      location: location,
+      price: price,
+      number: number,
     };
 
     axios
@@ -35,45 +41,69 @@ export function Edit() {
   };
 
   return (
-    <div>
-      <h3>Edit component</h3>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Edit Workers Name: </label>
-          <input
-            type="text"
-            className="form-control"
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-          />
-        </div>
-        <div className="form-group">
-          <label>Edit profession: </label>
-          <input
-            type="text"
-            className="form-control"
-            value={profession}
-            onChange={(e) => {
-              setProfession(e.target.value);
-            }}
-          />
+    <div className="d-flex justify-content-center align-items-start vh-100">
+      <div className="p-4">
+        <h3 className="mb-4">Edit component</h3>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>Edit Worker's Name: </label>
+            <input
+              type="text"
+              className="form-control form-control-lg" 
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+            />
+          </div>
+          <div className="form-group">
+            <label>Edit Profession: </label>
+            <input
+              type="text"
+              className="form-control form-control-lg" 
+              value={profession}
+              onChange={(e) => {
+                setProfession(e.target.value);
+              }}
+            />
+          </div>
+          <div className="form-group">
+            <label>Edit Job Location: </label>
+            <input
+              type="text"
+              className="form-control form-control-lg" 
+              value={location}
+              onChange={(e) => {
+                setLocation(e.target.value);
+              }}
+            />
+          </div>
+          <div className="form-group">
+            <label>Edit Job Price: </label>
+            <input
+              type="text"
+              className="form-control form-control-lg" 
+              value={price}
+              onChange={(e) => {
+                setPrice(e.target.value);
+              }}
+            />
+          </div>
 
-        </div>
-        <div className="form-group">
-          <label>Edit Job Price: </label>
-          <input
-            type="text"
-            className="form-control"
-            value={price}
-            onChange={(e) => {
-              setPrice(e.target.value);
-            }}
-          />
-        </div>
-        <input type="submit" value="Edit Job" />
-      </form>
+          <div className="form-group">
+            <label>Edit Job Contact Number: </label>
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              value={number}
+              onChange={(e) => {
+                setNumber(e.target.value);
+              }}
+            />
+          </div>
+          <input type="submit" value="Edit Job" className="btn btn-primary" />
+        </form>
+      </div>
     </div>
   );
 }
